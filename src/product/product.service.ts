@@ -29,8 +29,12 @@ export class ProductService {
     });
   }
 
-  async findOne(id: number) {
-    return `This action returns a #${id} product`;
+  async findOne(
+    productWhereUniqueInput: Prisma.ProductWhereUniqueInput,
+  ): Promise<Product | null> {
+    return this.prisma.product.findUnique({
+      where: productWhereUniqueInput,
+    });
   }
 
   async update(id: number, updateProductDto: UpdateProductDto) {
