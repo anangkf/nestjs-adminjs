@@ -43,8 +43,21 @@ export class ProductService {
       });
   }
 
-  async update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  async update(params: {
+    where: Prisma.ProductWhereUniqueInput;
+    data: Prisma.ProductUpdateInput;
+  }) {
+    const { where, data } = params;
+
+    return this.prisma.product
+      .update({
+        data,
+        where,
+      })
+      .then((res) => res)
+      .catch(() => {
+        throw new NotFoundException();
+      });
   }
 
   async remove(id: number) {

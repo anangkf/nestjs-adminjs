@@ -3,7 +3,7 @@ import {
   Get,
   Post,
   Body,
-  Patch,
+  Put,
   Param,
   Delete,
   ParseUUIDPipe,
@@ -35,9 +35,15 @@ export class ProductController {
     return this.productService.findOne({ id });
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productService.update(+id, updateProductDto);
+  @Put(':id')
+  update(
+    @Param('id', new ParseUUIDPipe()) id: string,
+    @Body() updateProductDto: UpdateProductDto,
+  ) {
+    return this.productService.update({
+      where: { id },
+      data: updateProductDto,
+    });
   }
 
   @Delete(':id')
