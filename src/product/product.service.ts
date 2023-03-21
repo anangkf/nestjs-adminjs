@@ -7,8 +7,10 @@ import { Product, Prisma } from '@prisma/client';
 export class ProductService {
   constructor(private prisma: PrismaService) {}
 
-  async create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
+  async create(data: Prisma.ProductCreateInput): Promise<Product> {
+    return this.prisma.product.create({
+      data,
+    });
   }
 
   async findAll(params: {
