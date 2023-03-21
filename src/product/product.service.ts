@@ -1,6 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
-import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product, Prisma } from '@prisma/client';
 
@@ -32,9 +31,14 @@ export class ProductService {
   async findOne(
     productWhereUniqueInput: Prisma.ProductWhereUniqueInput,
   ): Promise<Product | null> {
-    return this.prisma.product.findUnique({
-      where: productWhereUniqueInput,
-    });
+    return this.prisma.product
+      .findUnique({
+        where: productWhereUniqueInput,
+      })
+      .then((res) => {
+        if (!res) throw new NotFoundException();
+        return res;
+      });
   }
 
   async update(id: number, updateProductDto: UpdateProductDto) {
