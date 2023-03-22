@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
-import { UpdateProductDto } from './dto/update-product.dto';
 import { Product, Prisma } from '@prisma/client';
 
 @Injectable()
@@ -53,7 +52,9 @@ export class ProductService {
     });
   }
 
-  async remove(id: number) {
-    return `This action removes a #${id} product`;
+  async remove(where: Prisma.ProductWhereUniqueInput): Promise<Product> {
+    return this.prisma.product.delete({
+      where,
+    });
   }
 }
