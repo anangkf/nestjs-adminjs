@@ -1,5 +1,7 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory, HttpAdapterHost } from '@nestjs/core';
+import { DocumentBuilder } from '@nestjs/swagger';
+import { SwaggerModule } from '@nestjs/swagger/dist';
 import { AppModule } from './app.module';
 import { PrismaClientExceptionFilter } from './prisma-client-exception/prisma-client-exception.filter';
 import { PrismaService } from './prisma.service';
@@ -13,6 +15,16 @@ async function bootstrap() {
 
   // enable cors
   app.enableCors();
+
+  // added swagger ui
+  const config = new DocumentBuilder()
+    .setTitle('NestJS Playground')
+    .setDescription('NestJs Rest API with Prisma, PostgreSQL and Swagger UI')
+    .setVersion('0.1')
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
 
   // added global error exception filter
   const { httpAdapter } = app.get(HttpAdapterHost);

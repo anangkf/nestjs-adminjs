@@ -27,6 +27,7 @@
     "@nestjs/core": "^9.0.0",
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^9.0.0",
+    "@nestjs/swagger": "^6.2.1",
     "@prisma/client": "^4.11.0",
     "adminjs": "^6.8.7",
     "class-transformer": "^0.5.1",
@@ -34,7 +35,8 @@
     "express-formidable": "^1.2.0",
     "express-session": "^1.17.3",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "swagger-ui-express": "^4.6.2"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",
