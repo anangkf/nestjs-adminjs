@@ -33,14 +33,12 @@ export class ProductService {
   async findOne(
     productWhereUniqueInput: Prisma.ProductWhereUniqueInput,
   ): Promise<Product | null> {
-    return this.prisma.product
-      .findUnique({
-        where: productWhereUniqueInput,
-      })
-      .then((res) => {
-        if (!res) throw new NotFoundException();
-        return res;
-      });
+    const product = await this.prisma.product.findUnique({
+      where: productWhereUniqueInput,
+    });
+
+    if (!product) throw new NotFoundException();
+    return product;
   }
 
   async update(params: {
@@ -49,15 +47,10 @@ export class ProductService {
   }) {
     const { where, data } = params;
 
-    return this.prisma.product
-      .update({
-        data,
-        where,
-      })
-      .then((res) => res)
-      .catch(() => {
-        throw new NotFoundException();
-      });
+    return this.prisma.product.update({
+      data,
+      where,
+    });
   }
 
   async remove(id: number) {
