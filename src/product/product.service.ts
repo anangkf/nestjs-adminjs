@@ -9,6 +9,9 @@ export class ProductService {
   async create(data: Prisma.ProductCreateInput): Promise<Product> {
     return this.prisma.product.create({
       data,
+      include: {
+        seller: true,
+      },
     });
   }
 
@@ -26,6 +29,9 @@ export class ProductService {
       cursor,
       where,
       orderBy,
+      include: {
+        seller: true,
+      },
     });
   }
 
@@ -34,6 +40,9 @@ export class ProductService {
   ): Promise<Product | null> {
     const product = await this.prisma.product.findUnique({
       where: productWhereUniqueInput,
+      include: {
+        seller: true,
+      },
     });
 
     if (!product) throw new NotFoundException();
@@ -49,12 +58,18 @@ export class ProductService {
     return this.prisma.product.update({
       data,
       where,
+      include: {
+        seller: true,
+      },
     });
   }
 
   async remove(where: Prisma.ProductWhereUniqueInput): Promise<Product> {
     return this.prisma.product.delete({
       where,
+      include: {
+        seller: true,
+      },
     });
   }
 }
