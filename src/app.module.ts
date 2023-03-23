@@ -5,6 +5,7 @@ import AdminJS from 'adminjs';
 import { ProductModule } from './product/product.module';
 import { PrismaService } from './prisma.service';
 import { DMMFClass } from '@prisma/client/runtime';
+import { UserModule } from './user/user.module';
 
 // register prisma adapter
 AdminJS.registerAdapter(AdminJSPrisma);
@@ -36,6 +37,10 @@ const authenticate = async (email: string, password: string) => {
                 resource: { model: dmmf.modelMap.Product, client: prisma },
                 options: {},
               },
+              {
+                resource: { model: dmmf.modelMap.User, client: prisma },
+                options: {},
+              },
             ],
           },
           auth: {
@@ -51,6 +56,7 @@ const authenticate = async (email: string, password: string) => {
         };
       },
     }),
+    UserModule,
   ],
   controllers: [],
   providers: [],
