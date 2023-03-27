@@ -1,12 +1,27 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Product } from '@prisma/client';
-import { IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { Gender, Product } from '@prisma/client';
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsEnum,
+  IsEmail,
+} from 'class-validator';
 
 export class CreateUserDto {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
+  @IsEmail()
   email: string;
+
+  passwordHash: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  password: string;
 
   @ApiProperty()
   @IsString()
@@ -16,14 +31,15 @@ export class CreateUserDto {
   @ApiProperty()
   @IsString()
   @IsOptional()
-  gender: string | 'male' | 'female';
+  @IsEnum(Gender)
+  gender: Gender;
 
   @ApiProperty()
   @IsBoolean()
   @IsOptional()
   verified: boolean;
 
-  @ApiProperty()
-  @IsOptional()
-  products: Product[];
+  // @ApiProperty()
+  // @IsOptional()
+  // products: Product[];
 }

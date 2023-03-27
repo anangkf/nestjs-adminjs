@@ -12,15 +12,25 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { User as UserModel } from '@prisma/client';
+import hashPassword from 'src/utils/hashPassword';
 
 @Controller('user')
 @ApiTags('User')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+  @Post('/register')
+  create(
+    @Body() { email, password, name, gender, verified }: CreateUserDto,
+  ): Promise<UserModel> {
+    const passwordHash = hashPassword(password);
+    return this.userService.create({
+      email,
+      passwordHash,
+      name,
+      gender,
+      verified,
+    });
   }
 
   @Get()
