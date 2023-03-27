@@ -21,6 +21,17 @@ async function bootstrap() {
     .setTitle('NestJS Playground')
     .setDescription('NestJs Rest API with Prisma, PostgreSQL and Swagger UI')
     .setVersion('0.1')
+    .addBearerAuth(
+      {
+        in: 'header',
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'JWT',
+        description: 'Enter JWT token',
+      },
+      'jwt-token',
+    )
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
