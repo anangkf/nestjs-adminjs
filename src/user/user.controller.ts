@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Req, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Req,
+  UseGuards,
+  UseInterceptors,
+  Query,
+} from '@nestjs/common';
 import { Request } from 'express';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -8,6 +17,8 @@ import hashPassword from 'src/utils/hashPassword';
 import { LoginDto } from './dto/login.dto';
 import { LocalAuthGuard } from 'src/auth/guards/local-auth.guard';
 import { AuthService } from 'src/auth/auth.service';
+import { PaginateInterceptor } from 'src/interceptors/paginate.interceptor';
+import { RequestQuery } from 'src/utils/request-query.validator';
 
 @Controller('user')
 @ApiTags('User')
@@ -38,7 +49,10 @@ export class UserController {
   }
 
   @Get()
-  findAll(): Promise<UserModel[]> {
-    return this.userService.findAll({});
+  @UseInterceptors(PaginateInterceptor)
+  findAll(@Query() query: RequestQuery): Promise<UserModel[]> {
+    const { page = 1, limit = 10 } = query;
+    const skip = page > 1 ? (page - 1) * limit : 0;
+    return this.userService.findAll({ skip, take: limit });
   }
 }

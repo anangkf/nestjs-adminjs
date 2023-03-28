@@ -11,6 +11,8 @@ import {
   ValidationPipe,
   UseGuards,
   ForbiddenException,
+  UseInterceptors,
+  Query,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { ProductService } from './product.service';
@@ -19,6 +21,8 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { Product as ProductModel } from '@prisma/client';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { PaginateInterceptor } from 'src/interceptors/paginate.interceptor';
+import { RequestQuery } from 'src/utils/request-query.validator';
 
 @Controller('product')
 @ApiTags('Product')
@@ -38,8 +42,11 @@ export class ProductController {
   }
 
   @Get()
-  findAll() {
-    return this.productService.findAll({});
+  @UseInterceptors(PaginateInterceptor)
+  findAll(@Query() query: RequestQuery) {
+    const { page = 1, limit = 10 } = query;
+    const skip = page > 1 ? (page - 1) * limit : 0;
+    return this.productService.findAll({ skip, take: limit });
   }
 
   @Get(':id')
