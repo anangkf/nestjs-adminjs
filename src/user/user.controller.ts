@@ -13,12 +13,12 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { User as UserModel } from '@prisma/client';
-import hashPassword from 'src/utils/hashPassword';
+import hashPassword from '../utils/hashPassword';
 import { LoginDto } from './dto/login.dto';
-import { LocalAuthGuard } from 'src/auth/guards/local-auth.guard';
-import { AuthService } from 'src/auth/auth.service';
-import { PaginateInterceptor } from 'src/interceptors/paginate.interceptor';
-import { RequestQuery } from 'src/utils/request-query.validator';
+import { LocalAuthGuard } from '../auth/guards/local-auth.guard';
+import { AuthService } from '../auth/auth.service';
+import { PaginateInterceptor } from '../interceptors/paginate.interceptor';
+import { RequestQuery } from '../utils/request-query.validator';
 
 @Controller('user')
 @ApiTags('User')

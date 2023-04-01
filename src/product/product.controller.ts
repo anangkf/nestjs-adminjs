@@ -20,9 +20,9 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product as ProductModel } from '@prisma/client';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { PaginateInterceptor } from 'src/interceptors/paginate.interceptor';
-import { RequestQuery } from 'src/utils/request-query.validator';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { PaginateInterceptor } from '../interceptors/paginate.interceptor';
+import { RequestQuery } from '../utils/request-query.validator';
 
 @Controller('product')
 @ApiTags('Product')

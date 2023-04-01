@@ -5,8 +5,8 @@ import {
   NestInterceptor,
 } from '@nestjs/common';
 import { map, Observable } from 'rxjs';
-import { PrismaService } from 'src/prisma.service';
-import { generatePagination } from 'src/utils/generatePagination';
+import { PrismaService } from '../prisma.service';
+import { generatePagination } from '../utils/generatePagination';
 
 export interface Response<T> {
   results: T;
