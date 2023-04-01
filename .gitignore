@@ -1,3 +1,6 @@
+# other dependency
+.adminjs
+
 # Logs
 logs
 *.log
